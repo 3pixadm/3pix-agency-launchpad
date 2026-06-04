@@ -16,6 +16,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIdRouteImport } from './routes/blog.$id'
 import { Route as AuthenticatedPanelRouteImport } from './routes/_authenticated/panel'
+import { Route as AuthenticatedPanelNewRouteImport } from './routes/_authenticated/panel.new'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -51,22 +52,29 @@ const AuthenticatedPanelRoute = AuthenticatedPanelRouteImport.update({
   path: '/panel',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPanelNewRoute = AuthenticatedPanelNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AuthenticatedPanelRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/blog': typeof BlogRouteWithChildren
   '/kontakt': typeof KontaktRoute
   '/login': typeof LoginRoute
-  '/panel': typeof AuthenticatedPanelRoute
+  '/panel': typeof AuthenticatedPanelRouteWithChildren
   '/blog/$id': typeof BlogIdRoute
+  '/panel/new': typeof AuthenticatedPanelNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blog': typeof BlogRouteWithChildren
   '/kontakt': typeof KontaktRoute
   '/login': typeof LoginRoute
-  '/panel': typeof AuthenticatedPanelRoute
+  '/panel': typeof AuthenticatedPanelRouteWithChildren
   '/blog/$id': typeof BlogIdRoute
+  '/panel/new': typeof AuthenticatedPanelNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -75,14 +83,29 @@ export interface FileRoutesById {
   '/blog': typeof BlogRouteWithChildren
   '/kontakt': typeof KontaktRoute
   '/login': typeof LoginRoute
-  '/_authenticated/panel': typeof AuthenticatedPanelRoute
+  '/_authenticated/panel': typeof AuthenticatedPanelRouteWithChildren
   '/blog/$id': typeof BlogIdRoute
+  '/_authenticated/panel/new': typeof AuthenticatedPanelNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/blog' | '/kontakt' | '/login' | '/panel' | '/blog/$id'
+  fullPaths:
+    | '/'
+    | '/blog'
+    | '/kontakt'
+    | '/login'
+    | '/panel'
+    | '/blog/$id'
+    | '/panel/new'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/blog' | '/kontakt' | '/login' | '/panel' | '/blog/$id'
+  to:
+    | '/'
+    | '/blog'
+    | '/kontakt'
+    | '/login'
+    | '/panel'
+    | '/blog/$id'
+    | '/panel/new'
   id:
     | '__root__'
     | '/'
@@ -92,6 +115,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/_authenticated/panel'
     | '/blog/$id'
+    | '/_authenticated/panel/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -153,15 +177,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPanelRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/panel/new': {
+      id: '/_authenticated/panel/new'
+      path: '/new'
+      fullPath: '/panel/new'
+      preLoaderRoute: typeof AuthenticatedPanelNewRouteImport
+      parentRoute: typeof AuthenticatedPanelRoute
+    }
   }
 }
 
+interface AuthenticatedPanelRouteChildren {
+  AuthenticatedPanelNewRoute: typeof AuthenticatedPanelNewRoute
+}
+
+const AuthenticatedPanelRouteChildren: AuthenticatedPanelRouteChildren = {
+  AuthenticatedPanelNewRoute: AuthenticatedPanelNewRoute,
+}
+
+const AuthenticatedPanelRouteWithChildren =
+  AuthenticatedPanelRoute._addFileChildren(AuthenticatedPanelRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedPanelRoute: typeof AuthenticatedPanelRoute
+  AuthenticatedPanelRoute: typeof AuthenticatedPanelRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedPanelRoute: AuthenticatedPanelRoute,
+  AuthenticatedPanelRoute: AuthenticatedPanelRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
