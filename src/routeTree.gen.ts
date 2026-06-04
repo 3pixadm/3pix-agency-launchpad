@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as BlogRouteImport } from './routes/blog'
@@ -19,6 +20,11 @@ import { Route as AuthenticatedPanelRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedPanelNewRouteImport } from './routes/_authenticated/panel.new'
 import { Route as AuthenticatedPanelIdRouteImport } from './routes/_authenticated/panel.$id'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRouteWithChildren
   '/kontakt': typeof KontaktRoute
   '/login': typeof LoginRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/panel': typeof AuthenticatedPanelRouteWithChildren
   '/blog/$id': typeof BlogIdRoute
   '/panel/$id': typeof AuthenticatedPanelIdRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogRouteWithChildren
   '/kontakt': typeof KontaktRoute
   '/login': typeof LoginRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/panel': typeof AuthenticatedPanelRouteWithChildren
   '/blog/$id': typeof BlogIdRoute
   '/panel/$id': typeof AuthenticatedPanelIdRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   '/blog': typeof BlogRouteWithChildren
   '/kontakt': typeof KontaktRoute
   '/login': typeof LoginRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/panel': typeof AuthenticatedPanelRouteWithChildren
   '/blog/$id': typeof BlogIdRoute
   '/_authenticated/panel/$id': typeof AuthenticatedPanelIdRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/kontakt'
     | '/login'
+    | '/sitemap.xml'
     | '/panel'
     | '/blog/$id'
     | '/panel/$id'
@@ -113,6 +123,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/kontakt'
     | '/login'
+    | '/sitemap.xml'
     | '/panel'
     | '/blog/$id'
     | '/panel/$id'
@@ -124,6 +135,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/kontakt'
     | '/login'
+    | '/sitemap.xml'
     | '/_authenticated/panel'
     | '/blog/$id'
     | '/_authenticated/panel/$id'
@@ -136,10 +148,18 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRouteWithChildren
   KontaktRoute: typeof KontaktRoute
   LoginRoute: typeof LoginRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -246,6 +266,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRouteWithChildren,
   KontaktRoute: KontaktRoute,
   LoginRoute: LoginRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
