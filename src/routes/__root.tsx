@@ -93,6 +93,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "3pix — interaktywna agencja kreatywna" },
+      { name: "description", content: "3pix Agency Launchpad is a vibrant, flat-design landing page for an interactive agency." },
+      { property: "og:description", content: "3pix Agency Launchpad is a vibrant, flat-design landing page for an interactive agency." },
+      { name: "twitter:description", content: "3pix Agency Launchpad is a vibrant, flat-design landing page for an interactive agency." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/41485589-aaf5-4833-bd13-f3465f268dcd/id-preview-a9f3465c--0fffd2eb-e204-4431-8c93-19525f4dd15c.lovable.app-1780588176781.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/41485589-aaf5-4833-bd13-f3465f268dcd/id-preview-a9f3465c--0fffd2eb-e204-4431-8c93-19525f4dd15c.lovable.app-1780588176781.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
