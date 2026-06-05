@@ -22,7 +22,6 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const router = useRouter();
   const { user } = useAuth();
-  const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,21 +34,10 @@ function LoginPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      if (mode === "login") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        toast.success("Zalogowano pomyślnie!");
-        router.navigate({ to: "/panel" });
-      } else {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { emailRedirectTo: window.location.origin },
-        });
-        if (error) throw error;
-        toast.success("Konto utworzone! Możesz się zalogować.");
-        router.navigate({ to: "/panel" });
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      toast.success("Zalogowano pomyślnie!");
+      router.navigate({ to: "/panel" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Coś poszło nie tak.");
     } finally {
@@ -66,13 +54,9 @@ function LoginPage() {
             <span>3</span>
             <span className="text-primary">pix</span>
           </div>
-          <h1 className="mt-4 text-2xl font-bold">
-            {mode === "login" ? "Zaloguj się" : "Załóż konto"}
-          </h1>
+          <h1 className="mt-4 text-2xl font-bold">Zaloguj się</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {mode === "login"
-              ? "Wejdź do panelu, aby zarządzać wpisami."
-              : "Utwórz konto zespołu 3pix."}
+            Wejdź do panelu, aby zarządzać wpisami.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-6 grid gap-4">
@@ -100,22 +84,13 @@ function LoginPage() {
               />
             </div>
             <Button type="submit" variant="hero" size="lg" disabled={loading}>
-              {loading ? "Proszę czekać..." : mode === "login" ? "Zaloguj" : "Zarejestruj"}
+              {loading ? "Proszę czekać..." : "Zaloguj"}
             </Button>
           </form>
 
-          <button
-            className="mt-5 w-full text-center text-sm font-semibold text-primary hover:underline"
-            onClick={() => setMode(mode === "login" ? "register" : "login")}
-          >
-            {mode === "login"
-              ? "Nie masz konta? Zarejestruj się"
-              : "Masz już konto? Zaloguj się"}
-          </button>
-
           <Link
             to="/"
-            className="mt-4 block text-center text-xs text-muted-foreground hover:text-foreground"
+            className="mt-5 block text-center text-xs text-muted-foreground hover:text-foreground"
           >
             ← Wróć na stronę główną
           </Link>

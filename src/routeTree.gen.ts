@@ -17,6 +17,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIdRouteImport } from './routes/blog.$id'
 import { Route as AuthenticatedPanelRouteImport } from './routes/_authenticated/panel'
+import { Route as AuthenticatedPanelIndexRouteImport } from './routes/_authenticated/panel.index'
 import { Route as AuthenticatedPanelNewRouteImport } from './routes/_authenticated/panel.new'
 import { Route as AuthenticatedPanelIdRouteImport } from './routes/_authenticated/panel.$id'
 
@@ -59,6 +60,11 @@ const AuthenticatedPanelRoute = AuthenticatedPanelRouteImport.update({
   path: '/panel',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPanelIndexRoute = AuthenticatedPanelIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedPanelRoute,
+} as any)
 const AuthenticatedPanelNewRoute = AuthenticatedPanelNewRouteImport.update({
   id: '/new',
   path: '/new',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/blog/$id': typeof BlogIdRoute
   '/panel/$id': typeof AuthenticatedPanelIdRoute
   '/panel/new': typeof AuthenticatedPanelNewRoute
+  '/panel/': typeof AuthenticatedPanelIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -87,10 +94,10 @@ export interface FileRoutesByTo {
   '/kontakt': typeof KontaktRoute
   '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/panel': typeof AuthenticatedPanelRouteWithChildren
   '/blog/$id': typeof BlogIdRoute
   '/panel/$id': typeof AuthenticatedPanelIdRoute
   '/panel/new': typeof AuthenticatedPanelNewRoute
+  '/panel': typeof AuthenticatedPanelIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -104,6 +111,7 @@ export interface FileRoutesById {
   '/blog/$id': typeof BlogIdRoute
   '/_authenticated/panel/$id': typeof AuthenticatedPanelIdRoute
   '/_authenticated/panel/new': typeof AuthenticatedPanelNewRoute
+  '/_authenticated/panel/': typeof AuthenticatedPanelIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -117,6 +125,7 @@ export interface FileRouteTypes {
     | '/blog/$id'
     | '/panel/$id'
     | '/panel/new'
+    | '/panel/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -124,10 +133,10 @@ export interface FileRouteTypes {
     | '/kontakt'
     | '/login'
     | '/sitemap.xml'
-    | '/panel'
     | '/blog/$id'
     | '/panel/$id'
     | '/panel/new'
+    | '/panel'
   id:
     | '__root__'
     | '/'
@@ -140,6 +149,7 @@ export interface FileRouteTypes {
     | '/blog/$id'
     | '/_authenticated/panel/$id'
     | '/_authenticated/panel/new'
+    | '/_authenticated/panel/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -209,6 +219,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPanelRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/panel/': {
+      id: '/_authenticated/panel/'
+      path: '/'
+      fullPath: '/panel/'
+      preLoaderRoute: typeof AuthenticatedPanelIndexRouteImport
+      parentRoute: typeof AuthenticatedPanelRoute
+    }
     '/_authenticated/panel/new': {
       id: '/_authenticated/panel/new'
       path: '/new'
@@ -229,11 +246,13 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedPanelRouteChildren {
   AuthenticatedPanelIdRoute: typeof AuthenticatedPanelIdRoute
   AuthenticatedPanelNewRoute: typeof AuthenticatedPanelNewRoute
+  AuthenticatedPanelIndexRoute: typeof AuthenticatedPanelIndexRoute
 }
 
 const AuthenticatedPanelRouteChildren: AuthenticatedPanelRouteChildren = {
   AuthenticatedPanelIdRoute: AuthenticatedPanelIdRoute,
   AuthenticatedPanelNewRoute: AuthenticatedPanelNewRoute,
+  AuthenticatedPanelIndexRoute: AuthenticatedPanelIndexRoute,
 }
 
 const AuthenticatedPanelRouteWithChildren =
