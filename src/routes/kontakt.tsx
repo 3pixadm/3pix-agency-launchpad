@@ -26,7 +26,7 @@ export const Route = createFileRoute("/kontakt")({
 });
 
 const details = [
-  { icon: Mail, label: "E-mail", value: "hej@3pix.studio" },
+  { icon: Mail, label: "E-mail", value: "hej@3pix.mom" },
   { icon: Phone, label: "Telefon", value: "+48 500 300 100" },
   { icon: MapPin, label: "Adres", value: "Warszawa, Polska" },
 ];

@@ -25,7 +25,7 @@ export function Footer() {
         <div>
           <h4 className="text-sm font-bold uppercase tracking-wide">Kontakt</h4>
           <ul className="mt-3 space-y-2 text-sm text-ink-foreground/70">
-            <li>hej@3pix.studio</li>
+            <li>hej@3pix.mom</li>
             <li>+48 500 300 100</li>
             <li>Warszawa, PL</li>
           </ul>
