@@ -15,6 +15,7 @@ import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogIdRouteImport } from './routes/blog.$id'
 import { Route as AuthenticatedPanelRouteImport } from './routes/_authenticated/panel'
 import { Route as AuthenticatedPanelIndexRouteImport } from './routes/_authenticated/panel.index'
@@ -50,6 +51,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BlogRoute,
+} as any)
 const BlogIdRoute = BlogIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -84,17 +90,18 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/panel': typeof AuthenticatedPanelRouteWithChildren
   '/blog/$id': typeof BlogIdRoute
+  '/blog/': typeof BlogIndexRoute
   '/panel/$id': typeof AuthenticatedPanelIdRoute
   '/panel/new': typeof AuthenticatedPanelNewRoute
   '/panel/': typeof AuthenticatedPanelIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/blog': typeof BlogRouteWithChildren
   '/kontakt': typeof KontaktRoute
   '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/blog/$id': typeof BlogIdRoute
+  '/blog': typeof BlogIndexRoute
   '/panel/$id': typeof AuthenticatedPanelIdRoute
   '/panel/new': typeof AuthenticatedPanelNewRoute
   '/panel': typeof AuthenticatedPanelIndexRoute
@@ -109,6 +116,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/panel': typeof AuthenticatedPanelRouteWithChildren
   '/blog/$id': typeof BlogIdRoute
+  '/blog/': typeof BlogIndexRoute
   '/_authenticated/panel/$id': typeof AuthenticatedPanelIdRoute
   '/_authenticated/panel/new': typeof AuthenticatedPanelNewRoute
   '/_authenticated/panel/': typeof AuthenticatedPanelIndexRoute
@@ -123,17 +131,18 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/panel'
     | '/blog/$id'
+    | '/blog/'
     | '/panel/$id'
     | '/panel/new'
     | '/panel/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/blog'
     | '/kontakt'
     | '/login'
     | '/sitemap.xml'
     | '/blog/$id'
+    | '/blog'
     | '/panel/$id'
     | '/panel/new'
     | '/panel'
@@ -147,6 +156,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/_authenticated/panel'
     | '/blog/$id'
+    | '/blog/'
     | '/_authenticated/panel/$id'
     | '/_authenticated/panel/new'
     | '/_authenticated/panel/'
@@ -204,6 +214,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof BlogRoute
     }
     '/blog/$id': {
       id: '/blog/$id'
@@ -271,10 +288,12 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface BlogRouteChildren {
   BlogIdRoute: typeof BlogIdRoute
+  BlogIndexRoute: typeof BlogIndexRoute
 }
 
 const BlogRouteChildren: BlogRouteChildren = {
   BlogIdRoute: BlogIdRoute,
+  BlogIndexRoute: BlogIndexRoute,
 }
 
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
