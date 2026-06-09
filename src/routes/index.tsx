@@ -55,7 +55,7 @@ function Index() {
             </span>
             <h1 className="mt-6 text-5xl font-bold leading-[1.05] md:text-6xl">
               Tworzymy cyfrowe
-              <span className="text-primary"> doświadczenia</span>, które działają.
+              <span className="text-primary"> do świadczenia</span>, które działają.
             </h1>
             <p className="mt-5 max-w-md text-lg text-muted-foreground">
               W 3pix łączymy odważny design, czysty kod i ruch. Budujemy marki,
